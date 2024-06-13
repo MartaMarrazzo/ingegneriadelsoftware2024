@@ -18,9 +18,11 @@ class CorsoController:
         nuovo_corso.aggiungi_allenamento(allenamento2)
 
         self.model.aggiungi_corso(nuovo_corso)
+        if self.view:
+            self.view.aggiorna_lista_corsi()
 
     def elimina_corso(self, nome_corso):
-        self.model.elimina_corso(nome_corso)
+        success = self.model.elimina_corso(nome_corso)
         if self.view:
             self.view.aggiorna_lista_corsi()
 
@@ -30,3 +32,6 @@ class CorsoController:
         for corso in corsi:
             allenamenti.extend(corso.calendario)
         return allenamenti
+
+    def get_all_corsi(self):
+        return [corso.nome_corso for corso in self.model.get_corsi()]

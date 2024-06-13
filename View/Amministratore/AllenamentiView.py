@@ -1,6 +1,9 @@
+from idlelib import window
+
 from Model.Corso import Corso
 import tkinter as tk
-from tkinter import ttk
+from tkinter import ttk, messagebox
+
 
 class AggiungiCorsoView(tk.Toplevel):
     def __init__(self, master, controller):
@@ -73,7 +76,6 @@ class AggiungiCorsoView(tk.Toplevel):
         self.controller.aggiungi_corso(nome, descrizione, istruttori, giorno, ora_inizio, ora_fine, giorno2, ora_inizio2, ora_fine2)
         self.destroy()
 
-
 class EliminaCorsoView(tk.Toplevel):
     def __init__(self, master, controller):
         super().__init__(master)
@@ -85,16 +87,20 @@ class EliminaCorsoView(tk.Toplevel):
 
         self.nome_label = ttk.Label(self.frame, text="Nome Corso:")
         self.nome_label.grid(row=0, column=0, sticky="w")
-        self.nome_entry = ttk.Entry(self.frame)
-        self.nome_entry.grid(row=0, column=1)
+
+        self.corsi = self.controller.get_all_corsi()
+        self.nome_var = tk.StringVar()
+        self.nome_combobox = ttk.Combobox(self.frame, textvariable=self.nome_var, values=self.corsi)
+        self.nome_combobox.grid(row=0, column=1)
 
         self.elimina_button = ttk.Button(self.frame, text="Elimina", command=self.elimina_corso)
         self.elimina_button.grid(row=1, columnspan=2, pady=5)
 
     def elimina_corso(self):
-        nome = self.nome_entry.get()
+        nome = self.nome_var.get()
         self.controller.elimina_corso(nome)
-        self.destroy()
+        tk.Toplevel.destroy(self)
+
 
 class DettagliCorsoView(tk.Toplevel):
     def __init__(self, master, corso):
