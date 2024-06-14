@@ -15,7 +15,7 @@ class AtletaController:
     def add_atleta(self, atleta_data):
         existing_atleta = self.model.ricercaAtleta(atleta_data['cf'])
         if existing_atleta:
-            return False, "Un istruttore con questo codice fiscale esiste già."
+            return False, "Un atleta con questo codice fiscale esiste già."
 
         nuovo_atleta = Atleta(**atleta_data)
         valid, message = nuovo_atleta.is_valid()
