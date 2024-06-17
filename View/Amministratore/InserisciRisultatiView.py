@@ -45,3 +45,4 @@ class InserisciRisultatiView:
 
         messagebox.showinfo("Successo", "Tutti i risultati sono stati registrati con successo!")
         self.master.destroy()
+

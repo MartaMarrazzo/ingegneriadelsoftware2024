@@ -7,10 +7,7 @@ class Atleta:
     def __init__(self, nome, cognome, data_nascita, luogo_nascita, cf, telefono, livello_atleta, tipo_abbonamento, cf_genitore, pagamento_assicurazione, scadenza_certificato_medico):
         self.nome = nome
         self.cognome = cognome
-        if isinstance(data_nascita, str):
-            self.data_nascita = datetime.strptime(data_nascita, "%Y-%m-%d")
-        else:
-            self.data_nascita = data_nascita
+        self.data_nascita = data_nascita
         self.luogo_nascita = luogo_nascita
         self.cf = cf
         self.telefono = telefono
@@ -18,12 +15,15 @@ class Atleta:
         self.tipo_abbonamento = tipo_abbonamento
         self.cf_genitore = cf_genitore
         self.pagamento_assicurazione = pagamento_assicurazione
-        if isinstance(scadenza_certificato_medico, str):
-            self.scadenza_certificato_medico = datetime.strptime(scadenza_certificato_medico, "%Y-%m-%d")
-        else:
-            self.scadenza_certificato_medico = scadenza_certificato_medico
+        self.scadenza_certificato_medico = scadenza_certificato_medico
 
     def is_valid(self):
+
+        if not all([self.cf, self.telefono,self.tipo_abbonamento, self.scadenza_certificato_medico,
+                    self.nome, self.pagamento_assicurazione, self.data_nascita, self.luogo_nascita,
+                    self.cognome, self.livello_atleta]):
+            return False, "Tutti i campi devono essere compilati."
+
         # Validate CF length and alphanumeric
         if len(self.cf) != 16 or not self.cf.isalnum():
             return False, "Codice fiscale deve essere di 16 caratteri alfanumerici."
@@ -31,6 +31,17 @@ class Atleta:
         # Validate phone number length and numeric
         if len(self.telefono) != 10 or not self.telefono.isdigit():
             return False, "Numero di telefono deve essere di 10 cifre numeriche."
+
+        date_fields = {
+            "data_nascita": self.data_nascita,
+            "scadenza_certificato_medico": self.scadenza_certificato_medico
+        }
+
+        for field_name, date_str in date_fields.items():
+            try:
+                datetime.strptime(date_str, "%Y-%m-%d")
+            except ValueError:
+                return False, f"Il campo {field_name} deve essere nel formato YYYY-MM-DD."
 
         today = datetime.now()
         age = today.year - self.data_nascita.year - (

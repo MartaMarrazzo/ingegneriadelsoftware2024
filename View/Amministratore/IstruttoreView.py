@@ -23,7 +23,7 @@ class IstruttoreView:
         ttk.Button(self.frame, text="Aggiungi Istruttore", command=self.open_add_istruttore_form).pack(side=tk.TOP,
                                                                                                        padx=10, pady=10)
 
-        search_frame = ttk.LabelFrame(self.frame, text="Cerca Istruttore per Codice Fiscale", padding="10")
+        search_frame = ttk.LabelFrame(self.frame, text="Cerca Istruttore da Eliminare per Codice Fiscale", padding="10")
         search_frame.pack(fill=tk.X, expand=False, padx=10, pady=10)
 
         self.cf_search_entry = ttk.Entry(search_frame, width=30)

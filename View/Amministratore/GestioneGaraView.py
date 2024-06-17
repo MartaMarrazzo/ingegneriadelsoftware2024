@@ -3,6 +3,8 @@ from datetime import datetime
 from tkinter import ttk, messagebox
 
 from View.Amministratore.InserisciRisultatiView import InserisciRisultatiView
+
+
 class GestioneGaraView:
     def __init__(self, master, gara_controller, gara):
         self.master = master
@@ -64,13 +66,12 @@ class GestioneGaraView:
         if partecipante_cf:
             atleta = self.controller.get_atleta_by_cf(partecipante_cf)
             if atleta:
-                success, message = self.controller.iscrivi_partecipante(self.gara, partecipante_cf)
+                success, message = self.controller.add_participant(self.gara, partecipante_cf)
                 if success:
                     messagebox.showinfo("Successo", f"Atleta {atleta.nome} {atleta.cognome} iscritto con successo.")
                 else:
                     messagebox.showerror("Errore", message)
                 input_window.destroy()
-                self.update_iscritti_list()
             else:
                 messagebox.showerror("Errore", "Atleta non trovato.")
         else:
@@ -78,7 +79,7 @@ class GestioneGaraView:
 
     def aggiungi_risultato(self):
         InserisciRisultatiView(tk.Toplevel(self.master), self.controller, self.gara)
-
+        InserisciRisultatiView.destroy()
     def update_iscritti_list(self):
         self.iscritti_listbox.delete(0, tk.END)
         partecipanti = self.gara.load_partecipanti()

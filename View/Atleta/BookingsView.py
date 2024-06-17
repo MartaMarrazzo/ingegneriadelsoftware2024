@@ -1,5 +1,6 @@
 import tkinter as tk
-from tkinter import ttk
+from tkinter import ttk, messagebox
+
 
 class BookingsView:
     def __init__(self, master, gara_controller, user_cf):
@@ -41,13 +42,16 @@ class BookingsView:
         if selected_item:
             booking_data = tree.item(selected_item[0], "values")
             gara_nome = booking_data[0]
-
-            success, message = self.gara_controller.delete_prenotazione(gara_nome, self.user_cf)
-            if success:
-                tree.delete(selected_item)
-                self.open_new_window("Prenotazione Cancellata", message)
-            else:
-                self.open_new_window("Errore", message)
+            # Richiesta di conferma
+            confirm = messagebox.askyesno("Conferma Eliminazione",
+                                          f"Sei sicuro di voler eliminare la prenotazione per la gara: {gara_nome}?")
+            if confirm:
+                success, message = self.gara_controller.delete_prenotazione(gara_nome, self.user_cf)
+                if success:
+                    tree.delete(selected_item)
+                    self.open_new_window("Prenotazione Cancellata", message)
+                else:
+                    self.open_new_window("Errore", message)
         else:
             self.open_new_window("Errore", "Seleziona una prenotazione da cancellare.")
 

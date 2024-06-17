@@ -72,9 +72,10 @@ import tkinter as tk
 from tkinter import ttk, messagebox
 
 class GestioneGareView:
-    def __init__(self, master, controller):
+    def __init__(self, master, controller, atletla_controller):
         self.master = master
         self.controller = controller
+        self.atleta_controller = atletla_controller
         self.master.title("Gestione Gare")
 
     def setup_gui(self):

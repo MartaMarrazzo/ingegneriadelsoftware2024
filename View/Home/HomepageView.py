@@ -111,7 +111,7 @@ class HomePageView:
         new_window = tk.Toplevel(self.master)
 
         # Instantiate the controllers
-        gara_controller = GaraController(Gara, new_window)
+        gara_controller = GaraController(Gara)
         corso_controller = CorsoController(Corso)
         abbonamento_controller = AbbonamentoController(Abbonamento, new_window)
 

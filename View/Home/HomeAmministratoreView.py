@@ -26,7 +26,7 @@ class HomeAmministratoreView:
 
         self.abbonamento_controller = AbbonamentoController(Abbonamento, self)
         self.controller = AtletaController(Atleta, self, self.abbonamento_controller)
-        self.gara_controller = GaraController(Gara, self)
+        self.gara_controller = GaraController(Gara)
 
         self.create_widgets()
 
@@ -69,9 +69,8 @@ class HomeAmministratoreView:
 
     def manage_gare(self):
         new_window = tk.Toplevel(self.master)
-        gara_controller = GaraController(Gara, None)
-        gara_app = GestioneGareView(new_window, gara_controller)
-        gara_controller.view = gara_app
+        gara_app = GestioneGareView(new_window, self.gara_controller, self.controller)
+        self.gara_controller.view = gara_app
         gara_app.setup_gui()
 
     def manage_statistiche(self):
