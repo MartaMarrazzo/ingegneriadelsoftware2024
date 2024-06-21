@@ -1,3 +1,5 @@
+from datetime import datetime
+
 from View.Amministratore.GestioneGaraView import GestioneGaraView
 
 
@@ -30,9 +32,19 @@ class InserisciGaraView:
         requisiti = self.entries["Requisiti Gara"].get().strip()
 
         if nome and data and luogo:
-            gara = self.controller.crea_gara(nome, data, luogo, requisiti)
-            messagebox.showinfo("Successo", f"Gara registrata con successo!")
-            self.master.destroy()
+            # Validate the date format
+            try:
+                datetime.strptime(data, "%Y-%m-%d")
+            except ValueError:
+                messagebox.showerror("Errore", "La data deve essere nel formato AAAA-MM-GG.")
+                return
+
+            success, message = self.controller.crea_gara(nome, data, luogo, requisiti)
+            if success:
+                messagebox.showinfo("Successo", message)
+                self.master.destroy()
+            else:
+                messagebox.showerror("Errore", message)
         else:
             messagebox.showerror("Errore", "Tutti i campi sono obbligatori.")
 

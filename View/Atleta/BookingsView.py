@@ -1,4 +1,5 @@
 import tkinter as tk
+from datetime import datetime
 from tkinter import ttk, messagebox
 
 
@@ -26,7 +27,23 @@ class BookingsView:
 
         prenotazioni = self.gara_controller.get_prenotazioni(self.user_cf)
         for prenotazione in prenotazioni:
-            tree.insert("", "end", values=(prenotazione.nome, prenotazione.data.strftime("%Y-%m-%d"), prenotazione.luogo, prenotazione.requisiti))
+            # Ensure prenotazione.data is a datetime object
+            if isinstance(prenotazione.data, str):
+                try:
+                    prenotazione_data = datetime.strptime(prenotazione.data, "%Y-%m-%d")
+                except ValueError:
+                    # Handle the case where the string format is not as expected
+                    prenotazione_data = prenotazione.data
+            else:
+                prenotazione_data = prenotazione.data
+
+            # Check if prenotazione_data is a datetime object before calling strftime
+            if isinstance(prenotazione_data, datetime):
+                data_str = prenotazione_data.strftime("%Y-%m-%d")
+            else:
+                data_str = prenotazione_data
+
+            tree.insert("", "end", values=(prenotazione.nome, data_str, prenotazione.luogo, prenotazione.requisiti))
 
         tree.grid(row=0, column=0, sticky="nsew")
 
@@ -35,7 +52,9 @@ class BookingsView:
         scrollbar.grid(row=0, column=1, sticky="ns")
 
         # Delete Booking Button
-        ttk.Button(frame, text="Cancella Prenotazione", command=lambda: self.delete_booking(tree)).grid(row=1, column=0, pady=10, sticky="ew")
+        ttk.Button(frame, text="Cancella Prenotazione", command=lambda: self.delete_booking(tree)).grid(row=1, column=0,
+                                                                                                        pady=10,
+                                                                                                        sticky="ew")
 
     def delete_booking(self, tree):
         selected_item = tree.selection()

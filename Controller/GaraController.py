@@ -25,8 +25,6 @@ class GaraController:
 
     def add_participant(self, gara, cf):
         success, message = gara.aggiungi_partecipante(cf)
-        if success:
-            gara.save_partecipanti()
         return success, message
 
     "prenotazione di una gara per un atleta"

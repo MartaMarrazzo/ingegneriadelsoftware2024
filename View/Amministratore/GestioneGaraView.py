@@ -39,14 +39,20 @@ class GestioneGaraView:
         self.check_date_and_toggle_button()
 
     def check_date_and_toggle_button(self):
-        data_gara = self.gara.data# Convert data_gara to datetime
+        data_gara = self.gara.data
+        if isinstance(data_gara, str):
+            try:
+                data_gara = datetime.strptime(data_gara, "%Y-%m-%d")
+            except ValueError:
+                messagebox.showerror("Errore", "La data della gara non è in un formato valido.")
+                return
+
         oggi = datetime.now()
 
         if oggi > data_gara:
             self.aggiungi_button.state(["!disabled"])
         else:
             self.aggiungi_button.state(["disabled"])
-
     def iscrivi_atleta(self):
         input_window = tk.Toplevel(self.master)
         input_window.title("Iscrivi Atleta")

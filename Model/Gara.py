@@ -4,11 +4,7 @@ from datetime import datetime
 class Gara:
     def __init__(self, nome, data, luogo, requisiti):
         self.nome = nome
-        if isinstance(data, str):
-            self.data = datetime.strptime(data, "%Y-%m-%d")
-        else:
-            self.data = data
-
+        self.data = data
         self.luogo = luogo
         self.requisiti = requisiti
         self.partecipanti = self.load_partecipanti()

@@ -1,4 +1,5 @@
 import tkinter as tk
+from datetime import datetime
 from tkinter import ttk
 
 class GaraCalendarView:
@@ -25,7 +26,23 @@ class GaraCalendarView:
 
         gare = self.gara_controller.get_gare()
         for gara in gare:
-            tree.insert("", "end", values=(gara.nome, gara.data.strftime("%Y-%m-%d"), gara.luogo, gara.requisiti))
+            # Ensure gara.data is a datetime object
+            if isinstance(gara.data, str):
+                try:
+                    gara_data = datetime.strptime(gara.data, "%Y-%m-%d")
+                except ValueError:
+                    # Handle the case where the string format is not as expected
+                    gara_data = gara.data
+            else:
+                gara_data = gara.data
+
+            # Check if gara_data is a datetime object before calling strftime
+            if isinstance(gara_data, datetime):
+                data_str = gara_data.strftime("%Y-%m-%d")
+            else:
+                data_str = gara_data
+
+            tree.insert("", "end", values=(gara.nome, data_str, gara.luogo, gara.requisiti))
 
         tree.grid(row=0, column=0, sticky="nsew")
 
