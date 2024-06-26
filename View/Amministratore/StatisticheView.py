@@ -71,6 +71,9 @@ class StatisticheView:
         self.text_area.delete("1.0", tk.END)  # Clear the text area before inserting new data
         self.text_area.config(state='disabled')
 
+        certificati_settimana, certificati_mese = StatisticheController.get_certificati_in_scadenza()
+        self.mostra_certificati_in_scadenza(certificati_settimana, certificati_mese)
+
         totale_iscritti, iscritti_per_livello, percentuali_per_livello = StatisticheController.get_statistiche_iscritti_per_livello()
         self.mostra_statistiche_iscritti(totale_iscritti, iscritti_per_livello, percentuali_per_livello)
 
@@ -79,7 +82,4 @@ class StatisticheView:
 
         totale_risultati, tipi_risultati, percentuali_risultati = StatisticheController.get_statistiche_risultati_tipo()
         self.mostra_statistiche_risultati_tipo(totale_risultati, tipi_risultati, percentuali_risultati)
-
-        certificati_settimana, certificati_mese = StatisticheController.get_certificati_in_scadenza()
-        self.mostra_certificati_in_scadenza(certificati_settimana, certificati_mese)
 

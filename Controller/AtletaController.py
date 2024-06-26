@@ -26,7 +26,7 @@ class AtletaController:
         else:
             return False, "Errore nell'aggiunta dell'atleta."
 
-    def remove_atleta(self, atleta,top):
+    def remove_atleta(self, atleta, top):
         cf = atleta.cf
         if self.model.rimuoviAtleta(cf):
             self.view.show_message("Atleta rimosso con successo.")

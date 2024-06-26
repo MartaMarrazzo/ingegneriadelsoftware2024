@@ -63,6 +63,8 @@ class AtletaView:
             self.elenco_atleti_listbox.insert(tk.END,
                                               f" {atleta.cf} : {atleta.nome} {atleta.cognome} - {atleta.data_nascita}, {atleta.luogo_nascita}")
             self.elenco_atleti_listbox.bind("<Double-Button-1>", self.mostra_dettagli_atleta)
+
+        self.update_atleti_listbox()
     def open_add_atleta_form(self):
         top = tk.Toplevel(self.master)
         top.title("Aggiungi Atleta")
@@ -128,6 +130,7 @@ class AtletaView:
         if success:
             messagebox.showinfo("Successo", message)
             window.destroy()  # Close the window if successful
+            self.update_atleti_listbox()
         else:
             messagebox.showerror("Errore", message)
 
@@ -205,13 +208,17 @@ class AtletaView:
         ttk.Button(form_frame, text="Salva Modifiche", command=lambda: self.save_changes2(entries, atleta, top)).grid(
             row=row, column=0, columnspan=4, pady=10)
         # Button to delete athlete
-
-        ttk.Button(form_frame, text="Elimina Atleta", command=lambda: self.controller.remove_atleta(atleta, top)).grid(
+        ttk.Button(form_frame, text="Elimina Atleta", command=lambda: self.remove_atleta(atleta, top)).grid(
             row=row, column=2, columnspan=4, pady=10)
 
     """def save_changes(self, entries, atleta, window):
         updated_data = {label: entry.get() for label, entry in entries.items()}
         success = self.controller.update_atleta2(atleta, updated_data, window)"""
+
+    def remove_atleta(self, atleta, window):
+        self.controller.remove_atleta(atleta, window)  # Chiama la funzione di rimozione senza aspettarsi un risultato
+        window.destroy()  # Chiudi la finestra
+        self.update_atleti_listbox()  # Aggiorna la lista degli atleti
 
     def save_changes2(self, entries, atleta, window):
         updated_data = {attr: var.get() for attr, var in entries.items()}
@@ -219,6 +226,7 @@ class AtletaView:
         if success:
             messagebox.showinfo("Successo", message)
             window.destroy()  # Close the window after successful update
+            self.update_atleti_listbox()
         else:
             messagebox.showerror("Errore", message)
 
@@ -233,3 +241,12 @@ class AtletaView:
                 dettagli_view.grab_set()
                 dettagli_view.focus_set()
                 dettagli_view.wait_window()
+
+    def update_atleti_listbox(self):
+        self.elenco_atleti_listbox.delete(0, tk.END)
+        elenco_atleti = Atleta.get_lista_atleti()
+        for atleta_key in elenco_atleti:
+            atleta = elenco_atleti[atleta_key]
+            self.elenco_atleti_listbox.insert(tk.END,
+                                              f"{atleta.cf} : {atleta.nome} {atleta.cognome} - {atleta.data_nascita}, {atleta.luogo_nascita}")
+        self.elenco_atleti_listbox.bind("<Double-Button-1>", self.mostra_dettagli_atleta)
