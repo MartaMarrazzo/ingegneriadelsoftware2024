@@ -31,18 +31,20 @@ class Atleta:
         # Validate phone number length and numeric
         if len(self.telefono) != 10 or not self.telefono.isdigit():
             return False, "Numero di telefono deve essere di 10 cifre numeriche."
-
-        date_fields = {
-            "data_nascita": self.data_nascita,
-            "scadenza_certificato_medico": self.scadenza_certificato_medico
-        }
-
-        for field_name, date_str in date_fields.items():
+        if isinstance(self.data_nascita, str):
             try:
-                datetime.strptime(date_str, "%Y-%m-%d")
+                self.data_nascita = datetime.strptime(self.data_nascita, "%Y-%m-%d")
             except ValueError:
-                return False, f"Il campo {field_name} deve essere nel formato YYYY-MM-DD."
+                return False, "Il campo data_nascita deve essere nel formato YYYY-MM-DD."
 
+            # Verifica e conversione per scadenza_certificato_medico
+        if isinstance(self.scadenza_certificato_medico, str):
+            try:
+                self.scadenza_certificato_medico = datetime.strptime(self.scadenza_certificato_medico, "%Y-%m-%d")
+            except ValueError:
+                return False, "Il campo scadenza_certificato_medico deve essere nel formato YYYY-MM-DD."
+
+            # Calculate age and validate minor's parent CF
         today = datetime.now()
         age = today.year - self.data_nascita.year - (
                     (today.month, today.day) < (self.data_nascita.month, self.data_nascita.day))
@@ -53,8 +55,8 @@ class Atleta:
         return True, ""
 
     def ricercaAtleta(cf):
-        if os.path.isfile('Dati/Atleti.pickle'):
-            with open('Dati/Atleti.pickle', 'rb') as f:
+        if os.path.isfile('Atleti.pickle'):
+            with open('Atleti.pickle', 'rb') as f:
                 atleti = pickle.load(f)
                 return atleti.get(cf)
         return None
@@ -75,13 +77,13 @@ class Atleta:
         if not valid:
             return False, message
         atleti = {}
-        if os.path.isfile('Dati/Atleti.pickle'):
-            with open('Dati/Atleti.pickle', 'rb') as f:
+        if os.path.isfile('Atleti.pickle'):
+            with open('Atleti.pickle', 'rb') as f:
                 atleti = pickle.load(f)
 
         atleti[self.cf] = self
         try:
-            with open('Dati/Atleti.pickle', 'wb') as f:
+            with open('Atleti.pickle', 'wb') as f:
                 pickle.dump(atleti, f, pickle.HIGHEST_PROTOCOL)
             return True
         except Exception as e:
@@ -90,15 +92,15 @@ class Atleta:
 
     @staticmethod
     def rimuoviAtleta(cf):
-        if os.path.isfile('Dati/Atleti.pickle'):
-            with open('Dati/Atleti.pickle', 'rb') as f:
+        if os.path.isfile('Atleti.pickle'):
+            with open('Atleti.pickle', 'rb') as f:
                 atleti = pickle.load(f)
 
             if cf in atleti:
                 del atleti[cf]
 
                 try:
-                    with open('Dati/Atleti.pickle', 'wb') as f:
+                    with open('Atleti.pickle', 'wb') as f:
                         pickle.dump(atleti, f, pickle.HIGHEST_PROTOCOL)
                     return True
                 except Exception as e:
@@ -113,8 +115,8 @@ class Atleta:
     @staticmethod
     def get_lista_atleti():
         atleti = {}
-        if os.path.isfile('Dati/Atleti.pickle'):
-            with open('Dati/Atleti.pickle', 'rb') as f:
+        if os.path.isfile('Atleti.pickle'):
+            with open('Atleti.pickle', 'rb') as f:
                 try:
                     loaded_atleti = pickle.load(f)
                     # Verify each loaded object

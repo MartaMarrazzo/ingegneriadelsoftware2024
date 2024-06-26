@@ -31,8 +31,8 @@ class Gara:
 
     @staticmethod
     def get_gare():
-        if os.path.isfile('Dati/Gare.pickle'):
-            with open('Dati/Gare.pickle', 'rb') as f:
+        if os.path.isfile('Gare.pickle'):
+            with open('Gare.pickle', 'rb') as f:
                 try:
                     return pickle.load(f)
                 except EOFError:
@@ -40,8 +40,8 @@ class Gara:
         return []
 
     def ricerca_gara(nome):
-        if os.path.isfile('Dati/Gare.pickle'):
-            with open('Dati/Gare.pickle', 'rb') as f:
+        if os.path.isfile('Gare.pickle'):
+            with open('Gare.pickle', 'rb') as f:
                 try:
                     gare = pickle.load(f)
                     for gara in gare:
@@ -52,7 +52,7 @@ class Gara:
         return None
 
     def salva_gare(gare):
-        with open('Dati/Gare.pickle', 'wb') as f:
+        with open('Gare.pickle', 'wb') as f:
             pickle.dump(gare, f, pickle.HIGHEST_PROTOCOL)
 
     def aggiungi_gara(gara):
@@ -61,12 +61,12 @@ class Gara:
         Gara.salva_gare(gare)
 
     def save_partecipanti(self):
-        file_path = f'Dati/Partecipanti_{self.nome}.pickle'
+        file_path = f'Partecipanti_{self.nome}.pickle'
         with open(file_path, 'wb') as f:
             pickle.dump(self.partecipanti, f, pickle.HIGHEST_PROTOCOL)
 
     def load_partecipanti(self):
-        file_path = f'Dati/Partecipanti_{self.nome}.pickle'
+        file_path = f'Partecipanti_{self.nome}.pickle'
         if os.path.isfile(file_path):
             with open(file_path, 'rb') as f:
                 try:
@@ -76,12 +76,12 @@ class Gara:
         return []
 
     def save_risultati(self):
-        file_path = f'Dati/Risultati_{self.nome}.pickle'
+        file_path = f'Risultati_{self.nome}.pickle'
         with open(file_path, 'wb') as f:
             pickle.dump(self.risultati, f, pickle.HIGHEST_PROTOCOL)
 
     def load_risultati(self):
-        file_path = f'Dati/Risultati_{self.nome}.pickle'
+        file_path = f'Risultati_{self.nome}.pickle'
         if os.path.isfile(file_path):
             with open(file_path, 'rb') as f:
                 try:

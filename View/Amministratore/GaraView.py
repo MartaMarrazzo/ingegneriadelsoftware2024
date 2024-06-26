@@ -62,13 +62,17 @@ class CercaGaraView:
         search_frame = ttk.LabelFrame(self.frame, text="Cerca Gara per Nome", padding="10")
         search_frame.pack(fill=tk.X, expand=False, padx=10, pady=10)
 
-        self.nome_entry = ttk.Entry(search_frame, width=30)
-        self.nome_entry.pack(side=tk.LEFT, padx=5, pady=5)
+        self.nome_combobox = ttk.Combobox(search_frame, width=30)
+        self.nome_combobox.pack(side=tk.LEFT, padx=5, pady=5)
+
+        # Get the list of gara names from the controller and set them as values in the combobox
+        gare_names = [gara.nome for gara in self.controller.get_gare()]  # Assuming this method exists
+        self.nome_combobox['values'] = gare_names
 
         ttk.Button(search_frame, text="Cerca", command=self.cerca_gara).pack(side=tk.LEFT, padx=10, pady=5)
 
     def cerca_gara(self):
-        nome = self.nome_entry.get()
+        nome = self.nome_combobox.get()
         if nome:
             gara = self.controller.get_gara_by_nome(nome)
             if gara:
@@ -80,6 +84,7 @@ class CercaGaraView:
                 messagebox.showerror("Errore", "Gara non trovata.")
         else:
             messagebox.showerror("Errore", "Inserire il nome della gara da cercare.")
+
 import tkinter as tk
 from tkinter import ttk, messagebox
 

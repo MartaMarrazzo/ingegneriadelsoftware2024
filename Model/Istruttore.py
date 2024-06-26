@@ -23,8 +23,8 @@ class Istruttore:
         return True, ""
 
     def ricercaIstruttore(cf):
-        if os.path.isfile('Dati/Istruttori.pickle'):
-            with open('Dati/Istruttori.pickle', 'rb') as f:
+        if os.path.isfile('Istruttori.pickle'):
+            with open('Istruttori.pickle', 'rb') as f:
                 istruttori = pickle.load(f)
                 return istruttori.get(cf)
         return None
@@ -34,13 +34,13 @@ class Istruttore:
         if not valid:
             return False, message
         istruttori = {}
-        if os.path.isfile('Dati/Istruttori.pickle'):
-            with open('Dati/Istruttori.pickle', 'rb') as f:
+        if os.path.isfile('Istruttori.pickle'):
+            with open('Istruttori.pickle', 'rb') as f:
                 istruttori = pickle.load(f)
 
         istruttori[self.cf] = self
         try:
-            with open('Dati/Istruttori.pickle', 'wb') as f:
+            with open('Istruttori.pickle', 'wb') as f:
                 pickle.dump(istruttori, f, pickle.HIGHEST_PROTOCOL)
             return True
         except Exception as e:
@@ -48,15 +48,15 @@ class Istruttore:
             return False
 
     def rimuoviIstruttore(cf):
-        if os.path.isfile('Dati/Istruttori.pickle'):
-            with open('Dati/Istruttori.pickle', 'rb') as f:
+        if os.path.isfile('Istruttori.pickle'):
+            with open('Istruttori.pickle', 'rb') as f:
                 istruttori = pickle.load(f)
 
             if cf in istruttori:
                 del istruttori[cf]
 
                 try:
-                    with open('Dati/Istruttori.pickle', 'wb') as f:
+                    with open('Istruttori.pickle', 'wb') as f:
                         pickle.dump(istruttori, f, pickle.HIGHEST_PROTOCOL)
                     return True
                 except Exception as e:
@@ -70,8 +70,8 @@ class Istruttore:
 
     def get_lista_istruttori():
         istruttori_list = {}
-        if os.path.isfile('Dati/Istruttori.pickle'):
-            with open('Dati/Istruttori.pickle', 'rb') as f:
+        if os.path.isfile('Istruttori.pickle'):
+            with open('Istruttori.pickle', 'rb') as f:
                 try:
                     loaded_istruttori = pickle.load(f)
                     # Verify each loaded object

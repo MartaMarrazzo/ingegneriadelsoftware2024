@@ -12,8 +12,8 @@ class Corso:
         self.calendario.append(allenamento)
 
     def ricerca_corso(nome_corso):
-        if os.path.isfile('Dati/Corsi.pickle'):
-            with open('Dati/Corsi.pickle', 'rb') as f:
+        if os.path.isfile('Corsi.pickle'):
+            with open('Corsi.pickle', 'rb') as f:
                 try:
                     corsi = pickle.load(f)
                     for corso in corsi:
@@ -25,8 +25,8 @@ class Corso:
 
     @staticmethod
     def get_corsi():
-        if os.path.isfile('Dati/Corsi.pickle'):
-            with open('Dati/Corsi.pickle', 'rb') as f:
+        if os.path.isfile('Corsi.pickle'):
+            with open('Corsi.pickle', 'rb') as f:
                 try:
                     return pickle.load(f)
                 except EOFError:
@@ -34,7 +34,7 @@ class Corso:
         return []
 
     def salva_corsi(corsi):
-        with open('Dati/Corsi.pickle', 'wb') as f:
+        with open('Corsi.pickle', 'wb') as f:
             pickle.dump(corsi, f, pickle.HIGHEST_PROTOCOL)
 
     def aggiungi_corso(corso):

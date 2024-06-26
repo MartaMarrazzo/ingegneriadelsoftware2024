@@ -42,7 +42,8 @@ class GaraCalendarView:
             else:
                 data_str = gara_data
 
-            tree.insert("", "end", values=(gara.nome, data_str, gara.luogo, gara.requisiti))
+            if gara_data > datetime.now():
+                tree.insert("", "end", values=(gara.nome, data_str, gara.luogo, gara.requisiti))
 
         tree.grid(row=0, column=0, sticky="nsew")
 
