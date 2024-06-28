@@ -44,8 +44,9 @@ class IstruttoreView:
             if hasattr(istruttore, 'cf'):
                 self.elenco_istruttori_listbox.insert(tk.END,
                                                       f" {istruttore.nome} {istruttore.cognome} - {istruttore.data_nascita}, {istruttore.cf}")
-            else:
-                print(f"Istruttore object is missing 'cf' attribute: {istruttore}")
+
+        self.update_istruttori_listbox()
+
 
     def open_add_istruttore_form(self):
         top = tk.Toplevel(self.master)
@@ -93,6 +94,8 @@ class IstruttoreView:
         if success:
             messagebox.showinfo("Successo", message)
             window.destroy()  # Close the window if successful
+            self.update_istruttori_listbox()
+
         else:
             messagebox.showerror("Errore", message)
 
@@ -129,6 +132,22 @@ class IstruttoreView:
         if success:
             messagebox.showinfo("Successo", message)
             top.destroy()  # Chiude la finestra di conferma
-            self.master.destroy()  # Chiude la finestra principale dopo la rimozione
+            self.update_istruttori_listbox()
+
         else:
             messagebox.showerror("Errore", message)
+
+
+    def update_istruttori_listbox(self):
+        # Clear the listbox
+        self.elenco_istruttori_listbox.delete(0, tk.END)
+
+        # Get the list of instructors
+        elenco_istruttori = Istruttore.get_lista_istruttori()
+
+        # Insert each instructor into the listbox
+        for istruttore_key in elenco_istruttori:
+            istruttore = elenco_istruttori[istruttore_key]
+            if hasattr(istruttore, 'cf'):
+                self.elenco_istruttori_listbox.insert(tk.END,
+                                                      f" {istruttore.nome} {istruttore.cognome} - {istruttore.data_nascita}, {istruttore.cf}")
