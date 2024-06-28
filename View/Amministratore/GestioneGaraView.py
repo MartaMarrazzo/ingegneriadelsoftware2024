@@ -75,17 +75,23 @@ class GestioneGaraView:
                 success, message = self.controller.add_participant(self.gara, partecipante_cf)
                 if success:
                     messagebox.showinfo("Successo", f"Atleta {atleta.nome} {atleta.cognome} iscritto con successo.")
+                    input_window.destroy()
+                    self.refresh_view()  # Aggiornamento della view principale
                 else:
                     messagebox.showerror("Errore", message)
-                input_window.destroy()
+
             else:
                 messagebox.showerror("Errore", "Atleta non trovato.")
         else:
             messagebox.showerror("Errore", "Inserisci un codice fiscale valido.")
 
     def aggiungi_risultato(self):
-        InserisciRisultatiView(tk.Toplevel(self.master), self.controller, self.gara)
-        InserisciRisultatiView.destroy()
+        risultati_window = tk.Toplevel(self.master)  # Crea una nuova finestra secondaria
+        view = InserisciRisultatiView(risultati_window, self.controller,
+                                      self.gara)  # Passa la nuova finestra alla tua vista
+        risultati_window.wait_window()  # Attendi la chiusura della finestra secondaria
+        self.update_risultati_list()
+
     def update_iscritti_list(self):
         self.iscritti_listbox.delete(0, tk.END)
         partecipanti = self.gara.load_partecipanti()
@@ -101,3 +107,8 @@ class GestioneGaraView:
             atleta = self.controller.get_atleta_by_cf(cf)
             if atleta:
                 self.risultati_listbox.insert(tk.END, f"{atleta.nome} {atleta.cognome}: {risultato}")
+    def refresh_view(self):
+        self.master.destroy()  # Distruggi la vista principale corrente
+        new_master = tk.Tk()  # Crea una nuova finestra principale
+        new_view = GestioneGaraView(new_master, self.controller, self.gara)  # Ricrea la vista
+        new_master.mainloop()  # Avvia il loop principale di Tkinter nella nuova finestra
