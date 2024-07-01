@@ -6,7 +6,7 @@ from Controller.StatisticheController import StatisticheController
 class StatisticheView:
     def __init__(self, root):
         self.root = root
-        self.root.title("Statistiche Gare per Livello Atleti")
+        self.root.title("Statistiche e Dati")
 
         # Configurazione della finestra principale
         self.frame = ttk.Frame(self.root, padding="10")
