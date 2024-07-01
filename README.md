@@ -18,5 +18,4 @@ Dopo che almeno un atleta è stato inserito nel sistema (lato admin), l'atleta p
 
 
 ## Documentazione di Progetto
-La documentazione di progetto è stata allegata alla presente repository sotto il file documentazione.pdf
-
+La documentazione di progetto è stata allegata alla presente repository sotto il file **Ingegneria_del_Software-1.pdf**
