@@ -13,7 +13,7 @@ class StatisticheView:
         self.frame.grid(row=0, column=0)
 
         # Titolo
-        self.title_label = ttk.Label(self.frame, text="Statistiche Gare per Livello Atleti", font=("Helvetica", 16))
+        self.title_label = ttk.Label(self.frame, text="Statistiche e Dati", font=("Helvetica", 16))
         self.title_label.grid(row=0, column=0, columnspan=2, pady=10)
 
         # Area di testo per visualizzare le statistiche
