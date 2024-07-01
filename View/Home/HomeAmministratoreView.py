@@ -76,7 +76,6 @@ class HomeAmministratoreView:
     def manage_statistiche(self):
         new_window = tk.Toplevel(self.master)
         statistiche_app = StatisticheView(new_window)
-        statistiche_app.setup_gui()
 
 # To use this class:
 if __name__ == "__main__":
